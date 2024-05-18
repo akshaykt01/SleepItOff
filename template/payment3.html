@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SleepitOff|Select Room</title>
+
+    <link rel="manifest" href="{% static 'assets/img/favicons/manifest.json' %}">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- ===============================================-->
+    <link href="{% static 'assets/css/theme.css' %}" rel="stylesheet" />
+      <link href="{% static 'user/theme.css' %}" rel="stylesheet" />
+
+
+    <script>
+        window.onload = function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('checkin_date').min = today;
+            document.getElementById('checkout_date').min = today;
+
+        };
+
+        function calculateTotal() {
+            var checkinDate = new Date(document.getElementById('checkin_date').value);
+            var checkoutDate = new Date(document.getElementById('checkout_date').value);
+            var pricePerDay = parseFloat("{{ bed_price }}");
+            var totalDays = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+            var totalAmount = totalDays * pricePerDay;
+            document.getElementById('total_amount').value = totalAmount.toFixed(2); // Set total amount in the hidden field
+        }
+    </script>
+            <style>
+                  .button {
+              background-color: #04AA6D; /* Green */
+              border: none;
+              color: white;
+              padding: 15px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+            }
+                  .button3 {border-radius: 8px;}
+            </style>
+
+
+</head>
+  <body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top py-5 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
+        <div class="container"><a class="navbar-brand" href="/"><img src="{% static 'assets/img/lg.png' %}" height="30" alt="logo" /></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
+          <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-lg-center align-items-start">
+              <li class="nav-item px-3 px-xl-4"><a class="nav-link fw-medium" aria-current="page" href="../../../../logout">Logout</a></li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section style="padding-top: 7rem;">
+        <div class="bg-holder" style="background-image:url({% static 'assets/img/hero/hero-bg.svg' %});">
+        </div>
+        <!--/.bg-holder-->
+
+      <section class="pt-6">
+          <div class="mb-7 text-left" >
+
+
+            <div style="padding:40px;">
+                    <h1>Please indicate the duration of your stay:</h1><br><br>
+
+                <p style="color:black;">Hostel Name: {{ hostel_name }}</p>
+                <p style="color:black;">Room ID: {{ room_id }}</p>
+                <p style="color:black;">Bed ID: {{ bed_number }}</p>
+                <p style="color:black;">Amount per day: {{ bed_price }}</p>
+
+              <form id="paymentForm" action="" method="POST" onsubmit="calculateTotal()">
+                    {% csrf_token %}
+                    <input type="hidden" name="bed_number" value="{{ bed_number }}">
+                    <input type="hidden" name="total_amount" id="total_amount" value="">
+                    <label for="checkin_date">Check-in Date:</label>
+                    <input type="date" id="checkin_date" name="checkin_date" min="{{ today }}" required><br>
+                    <label for="checkout_date">Check-out Date:</label>
+                    <input type="date" id="checkout_date" name="checkout_date" required onchange="calculateTotal()"><br>
+                    <p style="color:black;">Selected Number of Days: <span id="selected_days"></span></p>
+                    <p style="color:red;">Total Amount: Rs. <span id="display_total"></span></p>
+                    <button class="button button3" type="submit">Proceed to Payment</button>
+              </form>
+            </div>
+
+          <div class="py-5 text-center">
+          <p class="mb-0 text-secondary fs--1 fw-medium">All rights reserved@sleepitoff.com </p>
+      </div>
+
+
+    </main>
+
+            <script>
+    // Function to validate checkout date
+    function validateCheckoutDate() {
+        var checkinDate = new Date(document.getElementById('checkin_date').value);
+        var checkoutDate = new Date(document.getElementById('checkout_date').value);
+
+        // Compare checkout date with checkin date
+        if (checkoutDate <= checkinDate) {
+            alert('Checkout date must be after the check-in date.');
+            document.getElementById('checkout_date').value = ''; // Clear checkout date field
+            return false;
+        }
+        return true;
+    }
+
+    // Function to calculate and display the total amount
+    function calculateTotal() {
+        var isValid = validateCheckoutDate(); // Validate checkout date
+        if (!isValid) {
+            return; // Return if checkout date is invalid
+        }
+
+        // Calculation logic remains the same
+        var checkinDate = new Date(document.getElementById('checkin_date').value);
+        var checkoutDate = new Date(document.getElementById('checkout_date').value);
+        var pricePerDay = parseFloat("{{ bed_price }}");
+        var totalDays = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+        var totalAmount = totalDays * pricePerDay;
+        document.getElementById('total_amount').value = totalAmount.toFixed(2);
+        document.getElementById('display_total').innerText = totalAmount.toFixed(2);
+        document.getElementById('selected_days').innerText = totalDays; // Display selected number of days
+
+        // Convert total amount to integer for passing to the URL
+        var totalAmountInteger = Math.floor(totalAmount);
+
+        // Update the form action URL with the total amount integer
+        var formActionUrl = "/pay/" + totalAmountInteger; // Update the URL here
+        document.getElementById('paymentForm').action = formActionUrl;
+    }
+</script>
+    <script src="{% static 'vendors/@popperjs/popper.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/is/is.min.js' %}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="{% static 'vendors/fontawesome/all.min.js' %}"></script>
+    <script src="{% static 'assets/js/theme.js' %}"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
+  </body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <title>SleepItOff</title>
+  <meta charset="utf-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/favicons/logo2.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/favicons/logo2.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/img/favicons/logo2.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicons/logo2.ico' %}">
+    <link rel="manifest" href="{% static 'assets/img/favicons/manifest.json' %}">
+    <meta name="msapplication-TileImage" content="{% static 'assets/img/favicons/logo2.png' %}">
+    <meta name="theme-color" content="#ffffff">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- ===============================================-->
+    <link href="{% static 'assets/css/theme.css' %}" rel="stylesheet" />
+</head>
+<body>
+
+<!--navbar-->
+    <main class="main" id="top">
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top py-5 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
+        <div class="container"><a class="navbar-brand" href="/"><img src="{% static 'assets/img/lg.png' %}" height="30" alt="logo" /></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
+          <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-lg-center align-items-start">
+              <li class="nav-item px-3 px-xl-4"><a class="nav-link fw-medium" aria-current="page" href="logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section style="padding-top: 7rem;">
+        <div class="bg-holder" style="background-image:url({% static 'assets/img/hero/hero-bg.svg' %});">
+        </div>
+        <!--/.bg-holder-->
+
+
+      </section>
+
+          <div class="mb-2 text-center">
+            <h3 class=" fw-bold font-cursive text-capitalize">Add your hostel details:</h3>
+          </div>
+
+<div class="container">
+  <form action='hostelupdate' method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+    {% for i in r %}
+
+    <input type="text" value="{{i.email}}" name="n" hidden="" >
+
+    <div class="form-group">
+      <label>Hostel Name</label>
+      <input type="text" class="form-control" name="n1" required onkeyup="this.value = this.value.toUpperCase();">
+    </div>
+
+<br>
+    <div class="form-group">
+      <label>Avarage Price(Rs.) per day (eg:100-200)</label>
+      <input type="text" class="form-control" name="n12" pattern="\d{3}-\d{3}" title="Please enter a value in the format 110-299" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Hostel Type </label>
+      <select class="form-select" name="n2" required>
+        <option>Men</option>
+        <option>Women</option>
+        <option>Mixed</option>
+      </select>
+    </div>
+<br>
+
+
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" class="form-control" name="n4" onkeyup="this.value = this.value.toUpperCase();" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>WiFi</label>
+      <select class="form-select" name="n11" required>
+        <option>Available</option>
+        <option>Unavailable</option>
+      </select>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Image 1 *</label>
+      <input type="file" class="form-control" name="n5" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Image 2 *</label>
+      <input type="file" class="form-control" name="n6" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Image 3 *</label>
+      <input type="file" class="form-control" name="n7" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>image 4 *</label>
+      <input type="file" class="form-control" name="n8" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>image 5 *</label>
+      <input type="file" class="form-control" name="n9" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Hostel License</label>
+      <input type="file" class="form-control" name="n13" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Building Permit</label>
+      <input type="file" class="form-control" name="n14" required>
+    </div>
+<br>
+
+    <div class="form-group">
+      <label>Details</label>
+      <textarea class="form-control" name="n10" required></textarea>
+    </div>
+    <br>
+*(Adding original images of your hostel increases your chance to get approved)
+    <br>
+    <input type="submit" class="btn btn-danger orange-gradient-btn fs--1">
+        {% endfor %}
+
+  </form>
+</div>
+
+
+</main>
+</body>
+</html>

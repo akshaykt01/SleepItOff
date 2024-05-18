@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+        {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminpage</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'adminpage/assets/favicon.ico' %}" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="{% static 'adminpage/css/styles.css' %}" rel="stylesheet" />
+    <style>
+        /* Style for enlarged image popup */
+        .enlarged-img-container {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .enlarged-img {
+            display: block;
+            margin: auto;
+            max-width: 80%;
+            max-height: 80%;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="manage">SleepItOff Administration</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Masthead -->
+     <header class="masthead bg-primary text-white text-center">
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Avatar Image-->
+                <img class="masthead-avatar mb-5" src="{% static 'adminpage/assets/img/avataaars.svg' %}" alt="..." />
+                <p class="masthead-subheading font-weight-light mb-0">PENDINGS</p>
+
+            </div>
+        </header>
+
+    <!-- Image Enlarged Popup Container -->
+    <div id="enlargedImgContainer" class="enlarged-img-container" onclick="closeEnlargedImg()">
+<span class="close-btn" onclick="closeEnlargedImg()">&times;</span>
+        <img id="enlargedImg" class="enlarged-img" src="" alt="Enlarged Image">
+    </div>
+
+    <!-- Table Section -->
+    <div>
+        <table border="2" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Hostel Name</th>
+                    <th>Location</th>
+                    <th></th>
+                    <th>Images</th>
+                    <th></th>
+                    <th>Details</th>
+                    <th>wifi</th>
+                    <th>Approve/Reject</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in r %}
+                <tr>
+                    <td>{{i.email}}</td>
+                    <td>{{i.hstlname}}</td>
+                    <td>{{i.loc}}</td>
+                    <td><img src="{{i.img1.url}}" height="100px" width="100px" onclick="openEnlargedImg('{{i.img1.url}}')" style="cursor: pointer;">
+                    <img src="{{i.img2.url}}" height="100px" width="100px" onclick="openEnlargedImg('{{i.img2.url}}')" style="cursor: pointer;"></td>
+                    <td><img src="{{i.img3.url}}" height="100px" width="100px" onclick="openEnlargedImg('{{i.img3.url}}')" style="cursor: pointer;">
+                    <img src="{{i.img4.url}}" height="100px" width="100px" onclick="openEnlargedImg('{{i.img4.url}}')" style="cursor: pointer;"></td>
+                    <td><img src="{{i.img5.url}}" height="100px" width="100px" onclick="openEnlargedImg('{{i.img5.url}}')" style="cursor: pointer;"></td>
+                    <td>{{i.details}}</td>
+                    <td>{{i.wifi}}</td>
+                    <td>
+                        <form action='confirm' method="POST">
+                            {% csrf_token %}
+                            <input type="text" value="{{i.hstlname}}" name="n" hidden="" >
+                            <input type="submit" class="btn btn-default" value="Confirm">
+                        </form>
+                        <form action='remove' method="POST">
+                            {% csrf_token %}
+                            <input type="text" value="{{i.hstlname}}" name="n" hidden="" >
+                            <input type="submit" class="btn btn-default" value="Reject">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Copyright Section -->
+    <div class="copyright py-4 text-center text-white">
+            <div class="container"><small>Copyright &copy; SleepitOff 2023</small></div>
+        </div>
+
+    <script>
+        // Function to open enlarged image popup
+        function openEnlargedImg(imgSrc) {
+            var enlargedImgContainer = document.getElementById("enlargedImgContainer");
+            var enlargedImg = document.getElementById("enlargedImg");
+            enlargedImg.src = imgSrc;
+            enlargedImgContainer.style.display = "block";
+        }
+
+        // Function to close enlarged image popup
+        function closeEnlargedImg() {
+            var enlargedImgContainer = document.getElementById("enlargedImgContainer");
+            enlargedImgContainer.style.display = "none";
+        }
+    </script>
+
+    <!-- Bootstrap and other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'adminpage/js/scripts.js' %}"></script>
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>

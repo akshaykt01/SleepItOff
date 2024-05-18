@@ -1,0 +1,21 @@
+.container1{
+    padding:30px
+}
+.container2{
+    padding:50px
+}
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+    width: 600px;
+    margin: auto;
+    height: 500px;
+  }
+
+
+.carousel-control.right {
+    background-image: linear-gradient(to right,rgba(0,0,0,0) 0,rgb(0 0 0 / 0%));
+    }
+
+.carousel-control.left {
+    background-image: linear-gradient(to right,rgb(0 0 0 / 0%) 0,rgb(0 0 0 / 0%) 100%);
+}

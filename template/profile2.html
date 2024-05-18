@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SleepitOff</title>
+
+    <link rel="manifest" href="{% static 'assets/img/favicons/manifest.json' %}">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- ===============================================-->
+    <link href="{% static 'assets/css/theme.css' %}" rel="stylesheet" />
+      <link href="{% static 'user/theme.css' %}" rel="stylesheet" />
+
+
+  </head>
+
+
+  <body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top py-5 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
+        <div class="container"><a class="navbar-brand" href="/"><img src="{% static 'assets/img/lg.png' %}" height="30" alt="logo" /></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
+          <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-lg-center align-items-start">
+              <li class="nav-item px-3 px-xl-4"><a class="nav-link fw-medium" aria-current="page" href="logout">Logout</a></li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section style="padding-top: 7rem;">
+        <div class="bg-holder" style="background-image:url({% static 'assets/img/hero/hero-bg.svg' %});">
+        </div>
+        <!--/.bg-holder-->
+
+      <section class="pt-6">
+          <div class="mb-7 text-center">
+            <h3 >Profile</h3>
+          </div>
+        <div class="container">
+          <div class="py-8 px-5 position-relative text-center" style="background-color: rgba(223, 215, 249, 0.199);border-radius: 129px 20px 20px 20px;">
+            <div class="row justify-content-center">
+              <div class="col-lg-8 col-md-10">
+
+                <div id="proimg">
+                    <div class="container" >
+                        <div class="card" >
+                            <div class="imgBx" >
+                                    {% for i in r1 %}
+                                    <img src="{{i.uphoto.url}}" width="150px">
+                                        <form action="prfimg" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <input type="text" value="{{i.email}}" name="n1" hidden="" >
+                                            <br>
+                                            <div>
+
+                                                <input name="n2" type="file" >
+                                                <input type="submit" value="update">
+
+                                            </div>
+                                        </form>
+                                <h2>{{i.uname}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </section>
+
+      <section class="pt-6">
+
+          <div class="py-8 px-5 position-relative text-center" style="background-color: rgba(223, 215, 249, 0.199);border-radius: 129px 20px 20px 20px;">
+
+            {% endfor %}
+            <br><br><a href="pr" class="btn btn-info" role="button">UPDATE PASSWORD</a>
+          </div>
+
+      </section>
+
+
+      <div class="py-5 text-center">
+        <p class="mb-0 text-secondary fs--1 fw-medium">All rights reserved@sleepitoff.co </p>
+      </div>
+    </main>
+    <!-- ===============================================-->
+
+    <!-- ===============================================-->
+    <script src="{% static 'vendors/@popperjs/popper.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/is/is.min.js' %}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="{% static 'vendors/fontawesome/all.min.js' %}"></script>
+    <script src="{% static 'assets/js/theme.js' %}"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
+  </body>
+
+</html>

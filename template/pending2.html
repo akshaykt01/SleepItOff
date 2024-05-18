@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+        {% load static %}
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Adminpage</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'adminpage/assets/favicon.ico' %}" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="{% static 'adminpage/css/styles.css' %}" rel="stylesheet" />
+        <style>
+
+</style>
+    </head>
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="manage">SleepItOff Administration</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Avatar Image-->
+                <img class="masthead-avatar mb-5" src="{% static 'adminpage/assets/img/avataaars.svg' %}" alt="..." />
+                <p class="masthead-subheading font-weight-light mb-0">PENDINGS</p>
+
+            </div>
+        </header>
+
+<div >
+  <table border="2" class="table table-hover">
+    <th>Email</th>
+    <th>Hostel Name</th>
+    <th>Location</th>
+    <th>Image1</th>
+    <th>Image2</th>
+    <th>Image3</th>
+    <th>Image4</th>
+    <th>Image5</th>
+    <th>Details</th>
+    <th>wifi</th>
+    <th>Pendings</th>
+
+    <tr>
+      {% for i in r %}
+      <td>{{i.email}}</td>
+      <td>{{i.hstlname}}</td>
+      <td>{{i.loc}}</td>
+      <td>
+          <img src="{{i.img1.url}}" height="100px" width="100px" ></td>
+      <td><img src="{{i.img2.url}}" height="100px" width="100px" ></td>
+      <td><img src="{{i.img3.url}}" height="100px" width="100px" ></td>
+      <td><img src="{{i.img4.url}}" height="100px" width="100px" ></td>
+      <td><img src="{{i.img5.url}}" height="100px" width="100px" ></td>
+      <td>{{i.details}}</td>
+      <td>{{i.wifi}}</td>
+
+        <td>
+        <form action='confirm' method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" value="{{i.hstlname}}" name="n" hidden="" >
+            <input type="submit" class="btn btn-default " value="Confirm">
+          </div>
+        </form>
+
+              <form action='remove' method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" value="{{i.hstlname}}" name="n" hidden="" >
+                    <input type="submit" class="btn btn-default " value="Reject">
+                  </div>
+              </form>
+        </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+
+        <!-- Copyright Section-->
+        <div class="copyright py-4 text-center text-white">
+            <div class="container"><small>Copyright &copy; SleepitOff 2023</small></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'adminpage/js/scripts.js' %}"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
